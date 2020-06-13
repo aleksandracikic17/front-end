@@ -12,12 +12,14 @@ import { MainMenu, MainMenuItem } from './components/MainMenu/MainMenu';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import UserLoginPage from './components/UserLoginPage/UserLoginPage';
 import ContactPage from './components/ContactPage/ContactPage';
+import UserRegistrationPage from './components/UserRegistrationPage/UserRegistrationPage'
 
 const menuItems = [
   new MainMenuItem("Home", "/"),
   new MainMenuItem("About us", "/page/about-us/"),
   new MainMenuItem("Contact", "/contact/"),
   new MainMenuItem("Log in", "/user/login/"),
+  new MainMenuItem("Register", "/user/register/"),
 ];
 
 ReactDOM.render(
@@ -28,6 +30,7 @@ ReactDOM.render(
         <Route exact path="/" component={ HomePage } />
         <Route path="/contact" component={ ContactPage } />
         <Route path="/user/login" component={ UserLoginPage } />
+        <Route path="/user/register" component={ UserRegistrationPage } />
       </Switch>
     </HashRouter>
   </React.StrictMode>,
