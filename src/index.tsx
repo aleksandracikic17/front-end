@@ -10,7 +10,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
 import { MainMenu, MainMenuItem } from './components/MainMenu/MainMenu';
 import { HashRouter, Switch, Route } from 'react-router-dom';
-import UserLoginPage from './components/UserLoginPage/UserLogin';
+import UserLoginPage from './components/UserLoginPage/UserLoginPage';
 import ContactPage from './components/ContactPage/ContactPage';
 
 const menuItems = [

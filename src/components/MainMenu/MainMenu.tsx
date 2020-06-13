@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav, Container } from 'react-bootstrap';
 import { HashRouter, Link } from 'react-router-dom';
+import ContactPage from '../ContactPage/ContactPage';
 
 export class MainMenuItem {
     text: string = '';
@@ -14,6 +15,7 @@ export class MainMenuItem {
 
 interface MainMenuProperties {
     items: MainMenuItem[];
+    showUsers?: boolean;
 }
 
 interface MainMenuState {
@@ -43,6 +45,7 @@ export class MainMenu extends React.Component<MainMenuProperties> {
                 <Nav variant="tabs">
                     <HashRouter>
                         {this.state.items.map(this.makeNavLink)}
+                        { this.props.showUsers ? <ContactPage /> : '' }
                     </HashRouter>
                 </Nav>
             </Container>
