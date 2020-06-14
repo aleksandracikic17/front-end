@@ -28,14 +28,19 @@ export default class RoledMainMenu extends React.Component<RoledMainMenuProperti
         return [
             new MainMenuItem("Home", "/"),
             new MainMenuItem("Contact", "/contact/"),
-            new MainMenuItem("My Orders", "/user/orders/"),
+            new MainMenuItem("Clients", "/client/"),
+            new MainMenuItem("Destinations", "/destination/"),
+            new MainMenuItem("Arrangements", "/arrangement/"),
             new MainMenuItem("Log out", "/user/logout/"),
         ];
     }
 
     private getAdministratorMenuItems(): MainMenuItem[] {
         return [
-            new MainMenuItem("Dashboard", "/administrator/dashboard/"),
+            new MainMenuItem("Clients", "/client/"),
+            new MainMenuItem("Users", "/user/"),
+            new MainMenuItem("Destinations", "/destination/"),
+            new MainMenuItem("Arrangements", "/arrangement/"),
             new MainMenuItem("Log out", "/administrator/logout/"),
         ];
     }

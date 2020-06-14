@@ -11,15 +11,18 @@ import '@fortawesome/fontawesome-free/css/fontawesome.css'
 import { MainMenu, MainMenuItem } from './components/MainMenu/MainMenu';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import UserLoginPage from './components/UserLoginPage/UserLoginPage';
-import ContactPage from './components/ContactPage/ContactPage';
 import UserRegistrationPage from './components/UserRegistrationPage/UserRegistrationPage'
+import DestinationPage from './components/DestinationPage/DestinationPage';
+import AdministratorLoginPage from './components/AdministratorLoginPage/AdministratorLoginPage';
 
 const menuItems = [
-  new MainMenuItem("Home", "/"),
-  new MainMenuItem("About us", "/page/about-us/"),
-  new MainMenuItem("Contact", "/contact/"),
+  // new MainMenuItem("Home", "/"),
+  // new MainMenuItem("About us", "/page/about-us/"),
+  // new MainMenuItem("Contact", "/contact/"),
   new MainMenuItem("Log in", "/user/login/"),
   new MainMenuItem("Register", "/user/register/"),
+  new MainMenuItem("Destination", "/destination/"),
+  new MainMenuItem("Administrator log in", "/aministrator/login"),
 ];
 
 ReactDOM.render(
@@ -27,10 +30,11 @@ ReactDOM.render(
     <MainMenu items={ menuItems }></MainMenu>
     <HashRouter>
       <Switch>
-        <Route exact path="/" component={ HomePage } />
-        <Route path="/contact" component={ ContactPage } />
+       <Route exact path="/" component={ HomePage } /> */}
         <Route path="/user/login" component={ UserLoginPage } />
         <Route path="/user/register" component={ UserRegistrationPage } />
+        <Route path="/aministrator/login" component={ AdministratorLoginPage } />
+        <Route path="/destination" component={ DestinationPage } /> }
       </Switch>
     </HashRouter>
   </React.StrictMode>,

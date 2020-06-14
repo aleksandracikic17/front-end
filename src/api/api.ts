@@ -22,7 +22,6 @@ export default function api(
         axios(requestData)
         .then(res => responseHandler(res, resolve))
         .catch(async err => {
-            console.log(err)
             if (err.response.status === 401) {
                 const newToken = await refreshToken(role);
     
@@ -79,7 +78,7 @@ async function responseHandler(
 }
 
 function getToken(role: 'user' | 'administrator'): string {
-    const token = localStorage.getItem('api_token' + role);
+    const token = localStorage.getItem('api_token');
     return 'Bearer ' + token;
 }
 

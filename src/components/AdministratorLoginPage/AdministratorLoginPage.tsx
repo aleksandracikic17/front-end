@@ -6,15 +6,15 @@ import api, { ApiResponse, saveToken, saveRefreshToken } from '../../api/api';
 import { Redirect } from 'react-router-dom';
 import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
 
-interface UserLoginPageState {
+interface AdministratorLoginPageState {
     username: string;
     password: string;
     errorMessage: string;
     isLoggedIn: boolean;
 }
 
-export default class UserLoginPage extends React.Component {
-    state: UserLoginPageState;
+export default class AdministratorLoginPage extends React.Component {
+    state: AdministratorLoginPageState;
 
     constructor(props: Readonly<{}>) {
         super(props);
@@ -53,7 +53,7 @@ export default class UserLoginPage extends React.Component {
 
     private doLogin() {
         api(
-            'auth/user/login',
+            'auth/administrator/login',
             'post',
             {
                 username: this.state.username,
@@ -81,8 +81,8 @@ export default class UserLoginPage extends React.Component {
                     return;
                 }
 
-                saveToken('user', res.data.token);
-                saveRefreshToken('user', res.data.refreshToken);
+                saveToken('administrator', res.data.token);
+                saveRefreshToken('administrator', res.data.refreshToken);
 
                 this.setLogginState(true);
             }
@@ -98,13 +98,13 @@ export default class UserLoginPage extends React.Component {
 
         return (
             <Container>
-                <RoledMainMenu role="user" />
+                <RoledMainMenu role="administrator" />
 
                 <Col md={ { span: 6, offset: 3 } }>
                     <Card>
                         <Card.Body>
                             <Card.Title>
-                                <FontAwesomeIcon icon={ faSignInAlt } /> User Login
+                                <FontAwesomeIcon icon={ faSignInAlt } /> Administrator Login
                             </Card.Title>
                             <Form>
                                 <Form.Group>
