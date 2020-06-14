@@ -14,6 +14,7 @@ import UserLoginPage from './components/UserLoginPage/UserLoginPage';
 import UserRegistrationPage from './components/UserRegistrationPage/UserRegistrationPage'
 import DestinationPage from './components/DestinationPage/DestinationPage';
 import AdministratorLoginPage from './components/AdministratorLoginPage/AdministratorLoginPage';
+import ClientPage from './components/ClientPage/ClientPage';
 
 const menuItems = [
   // new MainMenuItem("Home", "/"),
@@ -35,6 +36,7 @@ ReactDOM.render(
         <Route path="/user/register" component={ UserRegistrationPage } />
         <Route path="/aministrator/login" component={ AdministratorLoginPage } />
         <Route path="/destination" component={ DestinationPage } /> }
+        <Route path="/client" component={ ClientPage } /> }
       </Switch>
     </HashRouter>
   </React.StrictMode>,
