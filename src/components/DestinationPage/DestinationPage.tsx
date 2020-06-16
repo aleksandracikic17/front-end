@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Card, Table, Button, Modal, Form, Alert } from 'react-bootstrap';
+import { Container, Card, Table, Button, Modal, Form, Alert, Row } from 'react-bootstrap';
 import { faListAlt, faPlus, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Redirect } from 'react-router-dom';

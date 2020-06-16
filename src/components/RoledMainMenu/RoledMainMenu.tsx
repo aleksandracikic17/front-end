@@ -2,7 +2,7 @@ import React from 'react';
 import { MainMenu, MainMenuItem } from '../MainMenu/MainMenu';
 
 interface RoledMainMenuProperties {
-    role: 'user' | 'administrator';
+    role: 'user' | 'administrator' | 'visitor';
 }
 
 export default class RoledMainMenu extends React.Component<RoledMainMenuProperties> {
@@ -13,9 +13,10 @@ export default class RoledMainMenu extends React.Component<RoledMainMenuProperti
         switch (this.props.role) {
             case 'user':          items = this.getUserMenuItems(); break;
             case 'administrator': items = this.getAdministratorMenuItems(); break;
+            case 'visitor':       items = this.getVisitorMenuItems(); break;
         }
 
-        if (this.props.role === 'user') {
+        if (this.props.role === 'administrator') {
             showUsers = true;
         }
 
@@ -27,7 +28,6 @@ export default class RoledMainMenu extends React.Component<RoledMainMenuProperti
     private getUserMenuItems(): MainMenuItem[] {
         return [
             new MainMenuItem("Home", "/"),
-            new MainMenuItem("Contact", "/contact/"),
             new MainMenuItem("Clients", "/client/"),
             new MainMenuItem("Destinations", "/destination/"),
             new MainMenuItem("Arrangements", "/arrangement/"),

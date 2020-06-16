@@ -15,14 +15,11 @@ import UserRegistrationPage from './components/UserRegistrationPage/UserRegistra
 import DestinationPage from './components/DestinationPage/DestinationPage';
 import AdministratorLoginPage from './components/AdministratorLoginPage/AdministratorLoginPage';
 import ClientPage from './components/ClientPage/ClientPage';
+import ArrangementPage from './components/ArrangementPage/ArrangementPage';
 
 const menuItems = [
-  // new MainMenuItem("Home", "/"),
-  // new MainMenuItem("About us", "/page/about-us/"),
-  // new MainMenuItem("Contact", "/contact/"),
-  new MainMenuItem("Log in", "/user/login/"),
-  new MainMenuItem("Register", "/user/register/"),
-  new MainMenuItem("Destination", "/destination/"),
+  new MainMenuItem("User Log in", "/user/login/"),
+  new MainMenuItem("User Register", "/user/register/"),
   new MainMenuItem("Administrator log in", "/aministrator/login"),
 ];
 
@@ -37,6 +34,7 @@ ReactDOM.render(
         <Route path="/aministrator/login" component={ AdministratorLoginPage } />
         <Route path="/destination" component={ DestinationPage } /> }
         <Route path="/client" component={ ClientPage } /> }
+        <Route path="/arrangement" component={ ArrangementPage } /> }
       </Switch>
     </HashRouter>
   </React.StrictMode>,
