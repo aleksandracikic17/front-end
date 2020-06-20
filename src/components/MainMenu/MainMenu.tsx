@@ -1,7 +1,6 @@
 import React from 'react';
 import { Nav, Container } from 'react-bootstrap';
 import { HashRouter, Link } from 'react-router-dom';
-import ContactPage from '../ContactPage/ContactPage';
 
 export class MainMenuItem {
     text: string = '';

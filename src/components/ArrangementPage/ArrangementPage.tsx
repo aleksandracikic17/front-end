@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Card, Table, Button, Modal, Form, Alert } from 'react-bootstrap';
-import { faListAlt, faPlus, faEdit, faSave, faCheck, faWindowClose, faUserMinus, faMinus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faListAlt, faPlus, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Redirect } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
@@ -10,10 +10,13 @@ import ApiArrangementDto from '../../dtos/ApiArrangementDto';
 import ApiDestinationDto from '../../dtos/ApiDestinationDto';
 import ApiClientDto from '../../dtos/ApiClientDto';
 import DestinationType from '../../Types/DestinationType';
+import ClientType from '../../Types/ClientType';
 
 interface ArrangementState {
     isUserLoggedIn: boolean;
     arrangements: ArrangementType[];
+    destinations: DestinationType[];
+    clients: ClientType[];
 
     addModal: {
         visible: boolean;
@@ -33,10 +36,6 @@ interface ArrangementState {
     };
 }
 
-interface DestinationDto {
-    destinationName?: string,
-}
-
 export default class Client extends React.Component {
     state: ArrangementState;
 
@@ -46,6 +45,8 @@ export default class Client extends React.Component {
         this.state = {
             isUserLoggedIn: true,
             arrangements: [],
+            destinations: [],
+            clients: [],
 
             addModal: {
                 visible: false,
@@ -124,6 +125,8 @@ export default class Client extends React.Component {
 
     componentWillMount() {
         this.getArrangements();
+        this.getDestinationsDropDown();
+        this.getClientsDropDown();
     }
 
     async getArrangements() {
@@ -141,9 +144,9 @@ export default class Client extends React.Component {
                                 const arrangements: ArrangementType[] = data.map(arrangement => ({
                                     arrangementId: arrangement.id,
                                     destinationId: arrangement.destinationId,
-                                    destinationName: destinations[arrangement.destinationId].name,
+                                    destinationName: destinations[arrangement.destinationId - 1].name,
                                     clientId: arrangement.clientId,
-                                    clientName: clients[arrangement.clientId].name,
+                                    clientName: clients[arrangement.clientId - 1].name,
                                     canceled: arrangement.canceled,
                                 }));
                                 this.setStateArrangements(arrangements);
@@ -155,10 +158,33 @@ export default class Client extends React.Component {
 
     async getDestinationsDropDown() {
         api('/api/destination', 'get', {}, 'user')
-            .then(async (res: ApiResponse) => {
-                const destinations: ApiDestinationDto[] = res.data;
+            .then((res: ApiResponse) => {
 
+                const data: ApiDestinationDto[] = res.data;
+
+                const destinations: DestinationType[] = data.map(destination => ({
+                    destinationId: destination.id,
+                    name: destination.name,
+                }));
+                console.log('d: ' + destinations)
                 this.setStateDestinations(destinations);
+            })
+    }
+
+    async getClientsDropDown() {
+        api('/api/client', 'get', {}, 'user')
+            .then((res: ApiResponse) => {
+
+                const data: ApiClientDto[] = res.data;
+
+                const clients: ClientType[] = data.map(client => ({
+                    clientId: client.id,
+                    name: client.name,
+                    lastname: client.lastname,
+                }));
+
+                this.setStateClients(clients);
+                console.log('c: ' + clients)
             })
     }
 
@@ -170,15 +196,21 @@ export default class Client extends React.Component {
         this.setState(newState);
     }
 
+    private setStateArrangements(arrangements: ArrangementType[]) {
+        this.setState(Object.assign(this.state, {
+            arrangements: arrangements,
+        }));
+    }
+
     private setStateDestinations(destinations: DestinationType[]) {
         this.setState(Object.assign(this.state, {
             destinations: destinations,
         }));
     }
 
-    private setStateArrangements(arrangements: ArrangementType[]) {
+    private setStateClients(clients: ClientType[]) {
         this.setState(Object.assign(this.state, {
-            arrangements: arrangements,
+            clients: clients,
         }));
     }
 
@@ -198,18 +230,14 @@ export default class Client extends React.Component {
                         <Card.Title>
                             <FontAwesomeIcon icon={faListAlt} /> Arrangements
                         </Card.Title>
-
+                        <Card.Body>
+                            <Button variant="primary" size="sm"
+                                onClick={() => this.showAddModal()}>
+                                <FontAwesomeIcon icon={faPlus} /> Add new arrangement
+                            </Button>
+                        </Card.Body>
                         <Table hover bordered size="sm">
                             <thead>
-                                <tr>
-                                    <th colSpan={1}></th>
-                                    <th className="text-center">
-                                        <Button variant="primary" size="sm"
-                                            onClick={() => this.showAddModal()}>
-                                            <FontAwesomeIcon icon={faPlus} /> Add
-                                        </Button>
-                                    </th>
-                                </tr>
                                 <tr>
                                     <th className="text-right">ID</th>
                                     <th className="text-right">Destination id</th>
@@ -230,15 +258,17 @@ export default class Client extends React.Component {
                                         <td className="text-right">{arrangement.clientName}</td>
                                         <td className="text-right">
                                             {arrangement.canceled ? (
-                                                 <FontAwesomeIcon icon={faCheck} />
-                                            ) :  <FontAwesomeIcon icon={faTimes} />}
+                                                <FontAwesomeIcon icon={faTimes} />
+                                            ) : <FontAwesomeIcon icon={faCheck} />}
                                         </td>
-
                                         <td className="text-center">
-                                            <Button variant="info" size="sm"
-                                                onClick={() => this.showEditModal(arrangement)}>
-                                                <FontAwesomeIcon icon={faEdit} /> Edit arrangements
-                                        </Button>
+                                            {arrangement.canceled ? (
+                                                <FontAwesomeIcon icon={faTimes} />
+                                            ) :
+                                                <Button variant="info" size="sm"
+                                                    onClick={() => this.showEditModal(arrangement)}>
+                                                    Cancel arrangement
+                                        </Button>}
                                         </td>
                                     </tr>
                                 ), this)}
@@ -256,28 +286,30 @@ export default class Client extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="new-destinationId">Destination id</Form.Label>
-                            <Form.Control type="text" id="new-destinationId"
+                            <Form.Label htmlFor="new-destinationId">Destination name</Form.Label>
+                            <Form.Control as="select" id="destinationId"
                                 value={this.state.addModal.destinationId}
-                                onChange={(e) => this.setAddModalNumberFieldState('destinationId', e.target.value)} />
+                                onChange={(e) => this.setAddModalNumberFieldState('destinationId', e.target.value)}>
+                                <option value="null">Select destination</option>
+                                {this.state.destinations.map(d => (
+                                    <option value={d.destinationId}>
+                                        {d.destinationId}. {d.name}
+                                    </option>
+                                ))}
+                            </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-destinationName">Destination name</Form.Label>
-                            <Form.Control type="text" id="new-destinationName"
-                                value={this.state.addModal.destinationName}
-                                onChange={(e) => this.setAddModalNumberFieldState('destinationName', e.target.value)} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label htmlFor="new-client">Client</Form.Label>
-                            <Form.Control type="text" id="new-client"
+                            <Form.Label htmlFor="new-clientId">Client name</Form.Label>
+                            <Form.Control as="select" id="clientId"
                                 value={this.state.addModal.clientId}
-                                onChange={(e) => this.setAddModalNumberFieldState('clientId', e.target.value)} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label htmlFor="new-clientName">Client name</Form.Label>
-                            <Form.Control type="text" id="new-clientName"
-                                value={this.state.addModal.clientName}
-                                onChange={(e) => this.setAddModalNumberFieldState('clientName', e.target.value)} />
+                                onChange={(e) => this.setAddModalNumberFieldState('clientId', e.target.value)}>
+                                <option value="null">Select client</option>
+                                {this.state.clients.map(c => (
+                                    <option >
+                                        {c.clientId}
+                                    </option>
+                                ))}
+                            </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doAdd()}>
@@ -300,14 +332,14 @@ export default class Client extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-canceled">Canceled</Form.Label>
+                            <Form.Label htmlFor="edit-canceled">You can not activate a canceled arrangement!</Form.Label>
                             <Form.Control type="checkbox" id="edit-canceled"
                                 value={this.state.editModal.canceled?.toString()}
                                 onChange={(e) => this.setEditModalBooleanFieldState('canceled', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doEdit()}>
-                                <FontAwesomeIcon icon={faSave} /> Edit arrangement
+                                CONFIRM
                             </Button>
                         </Form.Group>
 
