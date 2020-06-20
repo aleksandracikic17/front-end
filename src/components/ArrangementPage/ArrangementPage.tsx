@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Card, Table, Button, Modal, Form, Alert } from 'react-bootstrap';
-import { faListAlt, faPlus, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faListAlt, faPlus, faEdit, faSave, faCheck, faWindowClose, faUserMinus, faMinus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Redirect } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
@@ -9,6 +9,7 @@ import ArrangementType from '../../Types/ArrangementType';
 import ApiArrangementDto from '../../dtos/ApiArrangementDto';
 import ApiDestinationDto from '../../dtos/ApiDestinationDto';
 import ApiClientDto from '../../dtos/ApiClientDto';
+import DestinationType from '../../Types/DestinationType';
 
 interface ArrangementState {
     isUserLoggedIn: boolean;
@@ -19,6 +20,7 @@ interface ArrangementState {
         destinationId: number;
         destinationName: string;
         clientId: number;
+        clientName: string;
         canceled: boolean;
         message: string;
     };
@@ -26,8 +28,6 @@ interface ArrangementState {
     editModal: {
         visible: boolean;
         arrangementId: number;
-        destinationId: number;
-        clientId: number;
         canceled: boolean;
         message: string;
     };
@@ -52,6 +52,7 @@ export default class Client extends React.Component {
                 destinationId: 0,
                 destinationName: '',
                 clientId: 0,
+                clientName: '',
                 canceled: false,
                 message: '',
             },
@@ -59,8 +60,6 @@ export default class Client extends React.Component {
             editModal: {
                 arrangementId: 0,
                 visible: false,
-                destinationId: 0,
-                clientId: 0,
                 canceled: false,
                 message: '',
             },
@@ -115,6 +114,14 @@ export default class Client extends React.Component {
         ));
     }
 
+    private setEditModalBooleanFieldState(fieldName: string, newValue: string) {
+        this.setState(Object.assign(this.state,
+            Object.assign(this.state.editModal, {
+                [fieldName]: (newValue === 'null') ? null : Boolean(newValue),
+            }),
+        ));
+    }
+
     componentWillMount() {
         this.getArrangements();
     }
@@ -125,43 +132,53 @@ export default class Client extends React.Component {
                 const destinations: ApiDestinationDto[] = res.data;
 
                 api('/api/client', 'get', {}, 'user')
-                .then(async (res: ApiResponse) => {
-                    const clients: ApiClientDto[] = res.data;
-
-                api('/api/arrangement', 'get', {}, 'user')
                     .then(async (res: ApiResponse) => {
-                        const data: ApiArrangementDto[] = res.data;
-                        const arrangements: ArrangementType[] = data.map(arrangement => ({
-                            arrangementId: arrangement.id,
-                            destinationId: arrangement.destinationId,
-                            destinationName: destinations[arrangement.destinationId].name,
-                            clientId: arrangement.clientId,
-                            clientName: clients[arrangement.clientId].name,
-                            canceled: arrangement.canceled,
-                        }));
-                        this.setStateArrangements(arrangements);
+                        const clients: ApiClientDto[] = res.data;
+
+                        api('/api/arrangement', 'get', {}, 'user')
+                            .then(async (res: ApiResponse) => {
+                                const data: ApiArrangementDto[] = res.data;
+                                const arrangements: ArrangementType[] = data.map(arrangement => ({
+                                    arrangementId: arrangement.id,
+                                    destinationId: arrangement.destinationId,
+                                    destinationName: destinations[arrangement.destinationId].name,
+                                    clientId: arrangement.clientId,
+                                    clientName: clients[arrangement.clientId].name,
+                                    canceled: arrangement.canceled,
+                                }));
+                                this.setStateArrangements(arrangements);
+                            })
                     })
             })
-        })
+    }
+
+
+    async getDestinationsDropDown() {
+        api('/api/destination', 'get', {}, 'user')
+            .then(async (res: ApiResponse) => {
+                const destinations: ApiDestinationDto[] = res.data;
+
+                this.setStateDestinations(destinations);
+            })
     }
 
     private setLogginState(isLoggedIn: boolean) {
         const newState = Object.assign(this.state, {
-            isAdministratorLoggedIn: isLoggedIn,
+            isUserLoggedIn: isLoggedIn,
         });
 
         this.setState(newState);
     }
 
-    private setStateArrangements(arrangements: ArrangementType[]) {
+    private setStateDestinations(destinations: DestinationType[]) {
         this.setState(Object.assign(this.state, {
-            arrangements: arrangements,
+            destinations: destinations,
         }));
     }
 
-    private setStateDest(dest: DestinationDto) {
+    private setStateArrangements(arrangements: ArrangementType[]) {
         this.setState(Object.assign(this.state, {
-            dest: dest,
+            arrangements: arrangements,
         }));
     }
 
@@ -199,7 +216,7 @@ export default class Client extends React.Component {
                                     <th className="text-right">Destination name</th>
                                     <th className="text-right">Client id</th>
                                     <th className="text-right">Client name</th>
-                                    <th className="text-right">Canceled</th>
+                                    <th className="text-right">Active</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -211,7 +228,12 @@ export default class Client extends React.Component {
                                         <td className="text-right">{arrangement.destinationName}</td>
                                         <td className="text-right">{arrangement.clientId}</td>
                                         <td className="text-right">{arrangement.clientName}</td>
-                                        <td className="text-right">{arrangement.canceled}</td>
+                                        <td className="text-right">
+                                            {arrangement.canceled ? (
+                                                 <FontAwesomeIcon icon={faCheck} />
+                                            ) :  <FontAwesomeIcon icon={faTimes} />}
+                                        </td>
+
                                         <td className="text-center">
                                             <Button variant="info" size="sm"
                                                 onClick={() => this.showEditModal(arrangement)}>
@@ -240,10 +262,22 @@ export default class Client extends React.Component {
                                 onChange={(e) => this.setAddModalNumberFieldState('destinationId', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
+                            <Form.Label htmlFor="new-destinationName">Destination name</Form.Label>
+                            <Form.Control type="text" id="new-destinationName"
+                                value={this.state.addModal.destinationName}
+                                onChange={(e) => this.setAddModalNumberFieldState('destinationName', e.target.value)} />
+                        </Form.Group>
+                        <Form.Group>
                             <Form.Label htmlFor="new-client">Client</Form.Label>
                             <Form.Control type="text" id="new-client"
                                 value={this.state.addModal.clientId}
                                 onChange={(e) => this.setAddModalNumberFieldState('clientId', e.target.value)} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label htmlFor="new-clientName">Client name</Form.Label>
+                            <Form.Control type="text" id="new-clientName"
+                                value={this.state.addModal.clientName}
+                                onChange={(e) => this.setAddModalNumberFieldState('clientName', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doAdd()}>
@@ -261,33 +295,15 @@ export default class Client extends React.Component {
                     onHide={() => this.setEditModalVisibleState(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Edit arrangement
+                            Cancel arrangement
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-destinationId">Destination</Form.Label>
-                            <Form.Control type="text" id="edit-dedestinationIdstination"
-                                value={this.state.editModal.destinationId}
-                                onChange={(e) => this.setEditModalNumberFieldState('destinationId', e.target.value)} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label htmlFor="edit-clientId">Client id</Form.Label>
-                            <Form.Control type="text" id="edit-clientId"
-                                value={this.state.editModal.clientId}
-                                onChange={(e) => this.setEditModalNumberFieldState('clientId', e.target.value)} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label htmlFor="edit-client">Client</Form.Label>
-                            <Form.Control type="text" id="edit-client"
-                                value={this.state.editModal.clientId}
-                                onChange={(e) => this.setEditModalNumberFieldState('client', e.target.value)} />
-                        </Form.Group>
-                        <Form.Group>
                             <Form.Label htmlFor="edit-canceled">Canceled</Form.Label>
                             <Form.Control type="checkbox" id="edit-canceled"
                                 value={this.state.editModal.canceled?.toString()}
-                                onChange={(e) => this.setEditModalNumberFieldState('canceled', e.target.value)} />
+                                onChange={(e) => this.setEditModalBooleanFieldState('canceled', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doEdit()}>
@@ -308,7 +324,9 @@ export default class Client extends React.Component {
         this.setAddModalStringFieldState('message', '');
 
         this.setAddModalNumberFieldState('destinationId', '');
+        this.setAddModalStringFieldState('destinationName', '');
         this.setAddModalNumberFieldState('clientId', '');
+        this.setAddModalStringFieldState('clientName', '');
 
         this.setAddModalVisibleState(true);
     }
@@ -338,16 +356,13 @@ export default class Client extends React.Component {
     private showEditModal(arrangement: ArrangementType) {
         this.setEditModalStringFieldState('message', '');
         this.setEditModalNumberFieldState('arrangementId', arrangement.arrangementId ? arrangement.arrangementId?.toString() : 'null');
-        this.setEditModalNumberFieldState('destinationId', String(arrangement.destinationId));
-        this.setEditModalNumberFieldState('clientId', String(arrangement.clientId));
         this.setEditModalNumberFieldState('canceled', String(arrangement.canceled));
         this.setEditModalVisibleState(true);
     }
 
     private doEdit() {
         api('/api/arrangement/' + this.state.editModal.arrangementId, 'patch', {
-            destinationId: this.state.editModal.destinationId,
-            clientId: this.state.editModal.clientId,
+            canceled: this.state.editModal.canceled,
         }, 'user')
             .then((res: ApiResponse) => {
                 if (res.status === 'login') {
