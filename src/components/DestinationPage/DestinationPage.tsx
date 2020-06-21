@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Card, Table, Button, Modal, Form, Alert } from 'react-bootstrap';
-import { faListAlt, faPlus, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faListAlt, faPlus, faEdit, faSave, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Redirect } from 'react-router-dom';
 import api, { ApiResponse } from '../../api/api';
@@ -16,9 +16,7 @@ interface DestinationState {
         visible: boolean;
         name: string;
         available: number;
-        reserved: number;
         date: Date;
-        active: boolean;
         message: string;
     };
 
@@ -27,9 +25,7 @@ interface DestinationState {
         name: string,
         visible: boolean;
         available: number;
-        reserved: number;
         date: string;
-        active: boolean;
         message: string;
     };
 }
@@ -48,9 +44,7 @@ export default class Destination extends React.Component {
                 visible: false,
                 name: '',
                 available: 0,
-                reserved: 0,
                 date: new Date(),
-                active: false,
                 message: '',
             },
 
@@ -59,9 +53,7 @@ export default class Destination extends React.Component {
                 visible: false,
                 name: '',
                 available: 0,
-                reserved: 0,
                 date: new Date().toISOString().split('T')[0],
-                active: false,
                 message: '',
             },
         };
@@ -123,10 +115,17 @@ export default class Destination extends React.Component {
         ));
     }
 
+    private setEditModalBooleanFieldState(fieldName: string, newValue: string) {
+        this.setState(Object.assign(this.state,
+            Object.assign(this.state.editModal, {
+                [fieldName]: (newValue === 'null') ? null : Boolean(newValue),
+            }),
+        ));
+    }
 
     private setEditModalDateFieldState(fieldName: string, newValue: string) {
         this.setState(Object.assign(this.state,
-            Object.assign(this.state.addModal, {
+            Object.assign(this.state.editModal, {
                 [fieldName]: newValue,
             }),
         ));
@@ -189,18 +188,14 @@ export default class Destination extends React.Component {
                         <Card.Title>
                             <FontAwesomeIcon icon={faListAlt} /> Destinations
                         </Card.Title>
-
+                        <Card.Body>
+                            <Button variant="primary" size="sm"
+                                onClick={() => this.showAddModal()}>
+                                <FontAwesomeIcon icon={faPlus} /> Add new destination
+                            </Button>
+                        </Card.Body>
                         <Table hover bordered size="sm">
                             <thead>
-                                <tr>
-                                    <th colSpan={1}></th>
-                                    <th className="text-center">
-                                        <Button variant="primary" size="sm"
-                                            onClick={() => this.showAddModal()}>
-                                            <FontAwesomeIcon icon={faPlus} /> Add
-                                        </Button>
-                                    </th>
-                                </tr>
                                 <tr>
                                     <th className="text-right">ID</th>
                                     <th>Name</th>
@@ -219,7 +214,12 @@ export default class Destination extends React.Component {
                                         <td className="text-right">{destination.available}</td>
                                         <td className="text-right">{destination.reserved}</td>
                                         <td className="text-right">{destination.date}</td>
-                                        <td className="text-right">{destination.active}</td>
+                                        
+                                        <td className="text-right">
+                                            {destination.active ? (
+                                                <FontAwesomeIcon icon={faTimes} />
+                                            ) : <FontAwesomeIcon icon={faCheck} />}
+                                        </td>
                                         <td className="text-center">
                                             <Button variant="info" size="sm"
                                                 onClick={() => this.showEditModal(destination)}>
@@ -254,24 +254,10 @@ export default class Destination extends React.Component {
                                 onChange={(e) => this.setAddModalNumberFieldState('available', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-reserved">Reserved</Form.Label>
-                            <Form.Control type="text" id="new-reserved"
-                                value={this.state.addModal.reserved}
-                                onChange={(e) => this.setAddModalNumberFieldState('reserved', e.target.value)}>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group>
                             <Form.Label htmlFor="new-date">Date</Form.Label>
                             <Form.Control type="date" id="new-date"
                                 value={this.state.addModal.date?.toString()}
                                 onChange={(e) => this.setAddModalDateFieldState('date', e.target.value)}>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label htmlFor="new-active">Active</Form.Label>
-                            <Form.Control type="checkbox" id="new-active"
-                                value={this.state.addModal.active?.toString()}
-                                onChange={(e) => this.setAddModalNumberFieldState('active', e.target.value)}>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
@@ -307,24 +293,10 @@ export default class Destination extends React.Component {
                                 onChange={(e) => this.setEditModalNumberFieldState('available', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-reserved">Reserved</Form.Label>
-                            <Form.Control type="text" id="edit-reserved"
-                                value={this.state.editModal.reserved?.toString()}
-                                onChange={(e) => this.setEditModalNumberFieldState('reserved', e.target.value)}>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group>
                             <Form.Label htmlFor="edit-date">Date</Form.Label>
                             <Form.Control type="date" id="edit-date"
                                 value={this.state.editModal.date?.toString()}
                                 onChange={(e) => this.setEditModalDateFieldState('date', e.target.value)}>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label htmlFor="edit-active">Active</Form.Label>
-                            <Form.Control type="checkbox" id="edit-active"
-                                value={this.state.editModal.active?.toString()}
-                                onChange={(e) => this.setEditModalNumberFieldState('active', e.target.value)}>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
@@ -347,9 +319,7 @@ export default class Destination extends React.Component {
 
         this.setAddModalStringFieldState('name', '');
         this.setAddModalStringFieldState('available', '');
-        this.setAddModalNumberFieldState('reserved', '');
         this.setAddModalNumberFieldState('date', '');
-        this.setAddModalNumberFieldState('active', '');
 
         this.setAddModalVisibleState(true);
     }
@@ -358,9 +328,7 @@ export default class Destination extends React.Component {
         api('/api/destination/', 'post', {
             name: this.state.addModal.name,
             available: this.state.addModal.available,
-            reserved: this.state.addModal.reserved,
             date: this.state.addModal.date,
-            active: this.state.addModal.active,
         }, 'user')
             .then((res: ApiResponse) => {
                 if (res.status === 'login') {
@@ -385,7 +353,7 @@ export default class Destination extends React.Component {
         this.setEditModalNumberFieldState('available', String(destination.available));
         this.setEditModalNumberFieldState('reserved', String(destination.reserved));
         this.setEditModalDateFieldState('date', String(destination.date));
-        this.setEditModalNumberFieldState('active', String(destination.active));
+        this.setEditModalBooleanFieldState('active', String(destination.active));
         this.setEditModalVisibleState(true);
     }
 
@@ -393,9 +361,7 @@ export default class Destination extends React.Component {
         api('/api/destination/' + this.state.editModal.destinationId, 'patch', {
             name: this.state.editModal.name,
             available: this.state.editModal.available,
-            reserved: this.state.editModal.reserved,
             date: this.state.editModal.date,
-            active: this.state.editModal.active,
         }, 'user')
             .then((res: ApiResponse) => {
                 if (res.status === 'login') {

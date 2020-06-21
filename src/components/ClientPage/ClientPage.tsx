@@ -159,18 +159,14 @@ export default class Client extends React.Component {
                         <Card.Title>
                             <FontAwesomeIcon icon={faListAlt} /> Clients
                         </Card.Title>
-
+                        <Card.Body>
+                            <Button variant="primary" size="sm"
+                                onClick={() => this.showAddModal()}>
+                                <FontAwesomeIcon icon={faPlus} /> Add new client
+                            </Button>
+                        </Card.Body>
                         <Table hover bordered size="sm">
                             <thead>
-                                <tr>
-                                    <th colSpan={1}></th>
-                                    <th className="text-center">
-                                        <Button variant="primary" size="sm"
-                                            onClick={() => this.showAddModal()}>
-                                            <FontAwesomeIcon icon={faPlus} /> Add
-                                        </Button>
-                                    </th>
-                                </tr>
                                 <tr>
                                     <th className="text-right">ID</th>
                                     <th>Name</th>

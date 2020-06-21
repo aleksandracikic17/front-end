@@ -146,7 +146,7 @@ export default class Client extends React.Component {
                                     destinationId: arrangement.destinationId,
                                     destinationName: destinations[arrangement.destinationId - 1].name,
                                     clientId: arrangement.clientId,
-                                    clientName: clients[arrangement.clientId - 1].name,
+                                    clientName: clients[arrangement.clientId - 1].lastname,
                                     canceled: arrangement.canceled,
                                 }));
                                 this.setStateArrangements(arrangements);
@@ -305,8 +305,8 @@ export default class Client extends React.Component {
                                 onChange={(e) => this.setAddModalNumberFieldState('clientId', e.target.value)}>
                                 <option value="null">Select client</option>
                                 {this.state.clients.map(c => (
-                                    <option >
-                                        {c.clientId}
+                                    <option value={c.clientId}>
+                                        {c.clientId}. {c.name} {c.lastname}
                                     </option>
                                 ))}
                             </Form.Control>
