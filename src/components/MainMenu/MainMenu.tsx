@@ -32,7 +32,7 @@ export class MainMenu extends React.Component<MainMenuProperties> {
         };
     }
 
-    setItems(items: MainMenuItem[]) {
+    public setItems(items: MainMenuItem[]) {
         this.setState({
             items: items,
         });
@@ -44,7 +44,6 @@ export class MainMenu extends React.Component<MainMenuProperties> {
                 <Nav variant="tabs">
                     <HashRouter>
                         {this.state.items.map(this.makeNavLink)}
-                        {/* { this.props.showUsers ? <ContactPage /> : '' } */}
                     </HashRouter>
                 </Nav>
             </Container>

@@ -36,7 +36,7 @@ class HomePage extends React.Component {
 
         return (
             <Container>
-                <RoledMainMenu role='user' />
+                <RoledMainMenu role='visitor' />
 
                 <Card>
                     <Card.Body>

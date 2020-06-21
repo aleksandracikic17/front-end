@@ -3,7 +3,8 @@ import { Container, Card, Form, Col, Alert, Button, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import api, { ApiResponse } from '../../api/api';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import RoledMainMenu from '../RoledMainMenu/RoledMainMenu';
 
 interface UserRegistrationPageState {
     isRegistrationComplete: boolean;
@@ -68,8 +69,16 @@ export default class UserRegistrationPage extends React.Component {
     }
 
     render() {
+        
+        if (this.state.isRegistrationComplete === true) {
+            return (
+                <Redirect to="user/logoin" />
+            );
+        }
+
         return (
             <Container>
+                <RoledMainMenu role="user" />
                 <Col md={ { span: 8, offset: 2 } }>
                     <Card>
                         <Card.Body>
@@ -144,7 +153,7 @@ export default class UserRegistrationPage extends React.Component {
             password: this.state.formData.password,
         };
 
-        api('/auth/user/register', 'post', data)
+        api('/auth/user/register', 'post', data, 'user')
         .then((res: ApiResponse) => {
             if (res.status === 'error') {
                 this.setMessage('There was an error. Please try again.');

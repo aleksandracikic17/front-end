@@ -52,13 +52,12 @@ export default class AdministratorLoginPage extends React.Component {
     }
 
     private doLogin() {
-        api(
-            'auth/administrator/login',
-            'post',
+        api('auth/administrator/login', 'post',
             {
                 username: this.state.username,
                 password: this.state.password,
-            }
+            },
+            'administrator'
         )
         .then((res: ApiResponse) => {
             if (res.status === 'error') {
@@ -92,13 +91,13 @@ export default class AdministratorLoginPage extends React.Component {
     render() {
         if (this.state.isLoggedIn === true) {
             return (
-                <Redirect to="/" />
+                <Redirect to="/users" />
             );
         }
 
         return (
             <Container>
-                <RoledMainMenu role="administrator" />
+                <RoledMainMenu role='administrator' />
 
                 <Col md={ { span: 6, offset: 3 } }>
                     <Card>

@@ -5,7 +5,7 @@ export default function api(
     path: string,
     method: 'get' | 'post' | 'patch' | 'delete',
     body: any | undefined,
-    role: 'user' | 'administrator' = 'user',
+    role: 'user' | 'administrator',
 ) {
     return new Promise<ApiResponse>((resolve) => {
         const requestData = {

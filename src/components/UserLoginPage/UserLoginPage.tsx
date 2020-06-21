@@ -58,7 +58,8 @@ export default class UserLoginPage extends React.Component {
             {
                 username: this.state.username,
                 password: this.state.password,
-            }
+            },
+            'user'
         )
         .then((res: ApiResponse) => {
             if (res.status === 'error') {
@@ -83,7 +84,7 @@ export default class UserLoginPage extends React.Component {
 
                 saveToken('user', res.data.token);
                 saveRefreshToken('user', res.data.refreshToken);
-
+                
                 this.setLogginState(true);
             }
         });
@@ -92,7 +93,7 @@ export default class UserLoginPage extends React.Component {
     render() {
         if (this.state.isLoggedIn === true) {
             return (
-                <Redirect to="/" />
+                <Redirect to="/client" />
             );
         }
 
@@ -125,6 +126,7 @@ export default class UserLoginPage extends React.Component {
                                         Log in
                                     </Button>
                                 </Form.Group>
+                                
                             </Form>
                             <Alert variant="danger"
                                    className={ this.state.errorMessage ? '' : 'd-none' }>
