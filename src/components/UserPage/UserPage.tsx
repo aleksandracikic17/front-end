@@ -50,12 +50,12 @@ export default class Destination extends React.Component {
                 }
 
                 const data: ApiUserDto[] = res.data;
-                
+
                 const users: UserType[] = data.map(user => ({
                     userId: user.id,
                     username: user.username,
                 }));
-                
+
                 this.setStateUsers(users);
             });
     }
@@ -85,12 +85,12 @@ export default class Destination extends React.Component {
             <Container>
                 <RoledMainMenu role="administrator" />
 
-                <Card>
+                <Card bg="light">
                     <Card.Body>
                         <Card.Title>
                             <FontAwesomeIcon icon={faListAlt} /> Users
                         </Card.Title>
-                        <Table hover bordered size="sm">
+                        <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>
@@ -126,7 +126,7 @@ export default class Destination extends React.Component {
                     <Modal.Body>
                         <Form.Group>
                             <Form.Label htmlFor="delete">You can not get back a deleted user!</Form.Label>
-                          
+
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doDelete()}>
@@ -139,7 +139,7 @@ export default class Destination extends React.Component {
                         ) : ''}
                     </Modal.Body>
                 </Modal>
-               
+
             </Container>
         );
     }

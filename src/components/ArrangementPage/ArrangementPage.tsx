@@ -166,7 +166,7 @@ export default class Client extends React.Component {
                     destinationId: destination.id,
                     name: destination.name,
                 }));
-                console.log('d: ' + destinations)
+
                 this.setStateDestinations(destinations);
             })
     }
@@ -184,7 +184,6 @@ export default class Client extends React.Component {
                 }));
 
                 this.setStateClients(clients);
-                console.log('c: ' + clients)
             })
     }
 
@@ -222,10 +221,10 @@ export default class Client extends React.Component {
         }
 
         return (
-            <Container>
+            <Container >
                 <RoledMainMenu role="user" />
 
-                <Card>
+                <Card bg="light">
                     <Card.Body>
                         <Card.Title>
                             <FontAwesomeIcon icon={faListAlt} /> Arrangements
@@ -236,7 +235,7 @@ export default class Client extends React.Component {
                                 <FontAwesomeIcon icon={faPlus} /> Add new arrangement
                             </Button>
                         </Card.Body>
-                        <Table hover bordered size="sm">
+                        <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>

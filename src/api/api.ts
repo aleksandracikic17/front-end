@@ -18,7 +18,7 @@ export default function api(
                 'Authorization': getToken(role),
             },
         };
-        console.log(requestData)
+
         axios(requestData)
         .then(res => responseHandler(res, resolve))
         .catch(async err => {
@@ -73,7 +73,7 @@ async function responseHandler(
         status: 'ok',
         data: res.data,
     };
-
+console.log(response)
     return resolve(response);
 }
 
@@ -100,6 +100,7 @@ async function refreshToken(role: 'user' | 'administrator'): Promise<string | nu
     const data = {
         token: getRefreshToken(role),
     }
+    console.log(data)
 
     const refreshTokenRequestData: AxiosRequestConfig = {
         method: 'post',
@@ -110,7 +111,7 @@ async function refreshToken(role: 'user' | 'administrator'): Promise<string | nu
             'Content-Type': 'application/json',
         },
     };
-
+    console.log(refreshTokenRequestData)
     const rtr: { data: { token: string | undefined } } = await axios(refreshTokenRequestData);
 
     if (!rtr.data.token) {

@@ -116,7 +116,7 @@ export default class Client extends React.Component {
                 }
 
                 const data: ApiClientDto[] = res.data;
-                
+
                 const clients: ClientType[] = data.map(client => ({
                     clientId: client.id,
                     name: client.name,
@@ -124,7 +124,7 @@ export default class Client extends React.Component {
                     mail: client.mail,
                     phone: client.phone,
                 }));
-                
+
                 this.setStateClients(clients);
             });
     }
@@ -154,7 +154,7 @@ export default class Client extends React.Component {
             <Container>
                 <RoledMainMenu role="user" />
 
-                <Card>
+                <Card bg="light">
                     <Card.Body>
                         <Card.Title>
                             <FontAwesomeIcon icon={faListAlt} /> Clients
@@ -165,7 +165,7 @@ export default class Client extends React.Component {
                                 <FontAwesomeIcon icon={faPlus} /> Add new client
                             </Button>
                         </Card.Body>
-                        <Table hover bordered size="sm">
+                        <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>

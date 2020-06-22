@@ -1,5 +1,5 @@
-import React from 'react';
-import { Nav, Container } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Nav, Container, Navbar, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import { HashRouter, Link } from 'react-router-dom';
 
 export class MainMenuItem {
@@ -40,19 +40,19 @@ export class MainMenu extends React.Component<MainMenuProperties> {
 
     render() {
         return (
-            <Container>
-                <Nav variant="tabs">
-                    <HashRouter>
-                        {this.state.items.map(this.makeNavLink)}
-                    </HashRouter>
-                </Nav>
-            </Container>
+            <Navbar bg="light" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav >{this.state.items.map(this.makeNavLink)}
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
         );
     }
 
     private makeNavLink(item: MainMenuItem) {
         return (
-            <Link to={ item.link } className="nav-link">
+            <Link to={item.link} className="nav-link">
                 {item.text}
             </Link>
         )

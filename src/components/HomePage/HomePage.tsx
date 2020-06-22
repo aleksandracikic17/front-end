@@ -37,11 +37,10 @@ class HomePage extends React.Component {
         return (
             <Container>
                 <RoledMainMenu role='visitor' />
-
-                <Card>
+                <Card bg="light">
                     <Card.Body>
                         <Card.Title>
-                        This is the internal TA backoffice application. Welcome!
+                            This is the internal TA backoffice application. Welcome!
                         </Card.Title>
                     </Card.Body>
                 </Card>

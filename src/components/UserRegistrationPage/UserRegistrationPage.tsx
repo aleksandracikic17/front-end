@@ -45,7 +45,7 @@ export default class UserRegistrationPage extends React.Component {
 
     private setFormDataField(fieldName: string, value: any) {
         const newFormData = Object.assign(this.state.formData, {
-            [ fieldName ]: value,
+            [fieldName]: value,
         });
 
         this.setState(Object.assign(this.state, {
@@ -69,7 +69,7 @@ export default class UserRegistrationPage extends React.Component {
     }
 
     render() {
-        
+
         if (this.state.isRegistrationComplete === true) {
             return (
                 <Redirect to="/" />
@@ -79,22 +79,22 @@ export default class UserRegistrationPage extends React.Component {
         return (
             <Container>
                 <RoledMainMenu role="user" />
-                <Col md={ { span: 8, offset: 2 } }>
-                    <Card>
+                <Col md={{ span: 8, offset: 2 }}>
+                    <Card bg="light">
                         <Card.Body>
                             <Card.Title>
-                                <FontAwesomeIcon icon={ faUserPlus } /> User Registration
+                                <FontAwesomeIcon icon={faUserPlus} /> User Registration
                             </Card.Title>
 
                             {
                                 this.state.isRegistrationComplete ?
-                                this.renderRegistrationComplete() :
-                                this.renderRegistrationForm()
+                                    this.renderRegistrationComplete() :
+                                    this.renderRegistrationForm()
                             }
 
                             <Alert variant="danger"
-                                   className={ this.state.message ? '' : 'd-none' }>
-                                { this.state.message }
+                                className={this.state.message ? '' : 'd-none'}>
+                                {this.state.message}
                             </Alert>
                         </Card.Body>
                     </Card>
@@ -122,8 +122,8 @@ export default class UserRegistrationPage extends React.Component {
                         <Form.Group>
                             <Form.Label htmlFor="username">Username:</Form.Label>
                             <Form.Control type="username" id="username"
-                                        value={ this.state.formData.username }
-                                        onChange={ (event) => this.handleFormInputChange(event as any) } />
+                                value={this.state.formData.username}
+                                onChange={(event) => this.handleFormInputChange(event as any)} />
                         </Form.Group>
                     </Col>
 
@@ -131,16 +131,16 @@ export default class UserRegistrationPage extends React.Component {
                         <Form.Group>
                             <Form.Label htmlFor="password">Password:</Form.Label>
                             <Form.Control type="password" id="password"
-                                        value={ this.state.formData.password }
-                                        onChange={ (event) => this.handleFormInputChange(event as any) } />
+                                value={this.state.formData.password}
+                                onChange={(event) => this.handleFormInputChange(event as any)} />
                         </Form.Group>
                     </Col>
                 </Row>
 
                 <Form.Group>
                     <Button variant="primary" block
-                            onClick={ () => this.doRegister() }>
-                        <FontAwesomeIcon icon={ faUserPlus } /> Register
+                        onClick={() => this.doRegister()}>
+                        <FontAwesomeIcon icon={faUserPlus} /> Register
                     </Button>
                 </Form.Group>
             </Form>
@@ -154,21 +154,21 @@ export default class UserRegistrationPage extends React.Component {
         };
 
         api('/auth/user/register', 'post', data, 'user')
-        .then((res: ApiResponse) => {
-            if (res.status === 'error') {
-                this.setMessage('There was an error. Please try again.');
-                return;
-            }
-
-            if (res.data.statusCode !== undefined) {
-                switch (res.data.statusCode) {
-                    case -6001: this.setMessage(res.data.message); break;
+            .then((res: ApiResponse) => {
+                if (res.status === 'error') {
+                    this.setMessage('There was an error. Please try again.');
+                    return;
                 }
-                return;
-            }
 
-            this.setMessage('');
-            this.setRegistrationCompleteState(true);
-        });
+                if (res.data.statusCode !== undefined) {
+                    switch (res.data.statusCode) {
+                        case -6001: this.setMessage(res.data.message); break;
+                    }
+                    return;
+                }
+
+                this.setMessage('');
+                this.setRegistrationCompleteState(true);
+            });
     }
 }

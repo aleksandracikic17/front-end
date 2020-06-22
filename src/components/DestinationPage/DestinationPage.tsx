@@ -144,7 +144,7 @@ export default class Destination extends React.Component {
                 }
 
                 const data: ApiDestinationDto[] = res.data;
-                
+
                 const destinations: DestinationType[] = data.map(destination => ({
                     destinationId: destination.id,
                     name: destination.name,
@@ -153,7 +153,7 @@ export default class Destination extends React.Component {
                     date: destination.date,
                     active: destination.active,
                 }));
-                
+
                 this.setStateDestinations(destinations);
             });
     }
@@ -183,7 +183,7 @@ export default class Destination extends React.Component {
             <Container>
                 <RoledMainMenu role="user" />
 
-                <Card>
+                <Card bg="light">
                     <Card.Body>
                         <Card.Title>
                             <FontAwesomeIcon icon={faListAlt} /> Destinations
@@ -194,7 +194,7 @@ export default class Destination extends React.Component {
                                 <FontAwesomeIcon icon={faPlus} /> Add new destination
                             </Button>
                         </Card.Body>
-                        <Table hover bordered size="sm">
+                        <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>
@@ -214,7 +214,7 @@ export default class Destination extends React.Component {
                                         <td className="text-right">{destination.available}</td>
                                         <td className="text-right">{destination.reserved}</td>
                                         <td className="text-right">{destination.date}</td>
-                                        
+
                                         <td className="text-right">
                                             {destination.active ? (
                                                 <FontAwesomeIcon icon={faTimes} />
