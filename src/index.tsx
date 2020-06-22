@@ -16,6 +16,7 @@ import AdministratorLoginPage from './components/AdministratorLoginPage/Administ
 import ClientPage from './components/ClientPage/ClientPage';
 import ArrangementPage from './components/ArrangementPage/ArrangementPage';
 import UserPage from './components/UserPage/UserPage';
+import UserLogoutPage from './components/UserLogoutPage/UserLogoutPage';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -29,11 +30,13 @@ ReactDOM.render(
         <Route path="/destination" component={ DestinationPage } /> }
         <Route path="/client" component={ ClientPage } /> }
         <Route path="/arrangement" component={ ArrangementPage } /> }
+        <Route path="/user/logout" component={ UserLogoutPage } />}
       </Switch>
     </HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

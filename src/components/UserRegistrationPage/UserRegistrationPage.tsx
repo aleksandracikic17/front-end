@@ -72,7 +72,7 @@ export default class UserRegistrationPage extends React.Component {
         
         if (this.state.isRegistrationComplete === true) {
             return (
-                <Redirect to="user/logoin" />
+                <Redirect to="/" />
             );
         }
 
