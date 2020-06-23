@@ -11,10 +11,12 @@ import ApiDestinationDto from '../../dtos/ApiDestinationDto';
 interface DestinationState {
     isUserLoggedIn: boolean;
     destinations: DestinationType[];
+    countries: [];
 
     addModal: {
         visible: boolean;
         name: string;
+        country: string;
         available: number;
         date: Date;
         message: string;
@@ -23,6 +25,7 @@ interface DestinationState {
     editModal: {
         destinationId: number;
         name: string,
+        country: string,
         visible: boolean;
         available: number;
         date: string;
@@ -39,10 +42,12 @@ export default class Destination extends React.Component {
         this.state = {
             isUserLoggedIn: true,
             destinations: [],
+            countries: [],
 
             addModal: {
                 visible: false,
                 name: '',
+                country: '',
                 available: 0,
                 date: new Date(),
                 message: '',
@@ -52,6 +57,7 @@ export default class Destination extends React.Component {
                 destinationId: 0,
                 visible: false,
                 name: '',
+                country: '',
                 available: 0,
                 date: new Date().toISOString().split('T')[0],
                 message: '',
@@ -133,6 +139,15 @@ export default class Destination extends React.Component {
 
     componentWillMount() {
         this.getDestinations();
+        this.getCountries();
+    }
+
+    private getCountries() {
+        fetch('https://restcountries.eu/rest/v2/all')
+            .then(response => response.json())
+            .then(json => json.map((country: { name: any; }) => country.name))
+            .then(countries =>
+                this.setStateCountries(countries))
     }
 
     private getDestinations() {
@@ -148,6 +163,7 @@ export default class Destination extends React.Component {
                 const destinations: DestinationType[] = data.map(destination => ({
                     destinationId: destination.id,
                     name: destination.name,
+                    country: destination.country,
                     available: destination.available,
                     reserved: destination.reserved,
                     date: destination.date,
@@ -172,6 +188,13 @@ export default class Destination extends React.Component {
         }));
     }
 
+    private setStateCountries(countries: []) {
+        this.setState(Object.assign(this.state, {
+            countries: countries,
+        }));
+    }
+
+
     render() {
         if (this.state.isUserLoggedIn === false) {
             return (
@@ -180,6 +203,7 @@ export default class Destination extends React.Component {
         }
 
         return (
+
             <Container>
                 <RoledMainMenu role="user" />
 
@@ -199,6 +223,7 @@ export default class Destination extends React.Component {
                                 <tr>
                                     <th className="text-right">ID</th>
                                     <th>Name</th>
+                                    <th className="text-right">Country</th>
                                     <th className="text-right">Available</th>
                                     <th className="text-right">Reserved</th>
                                     <th className="text-right">Date</th>
@@ -211,6 +236,7 @@ export default class Destination extends React.Component {
                                     <tr>
                                         <td className="text-right">{destination.destinationId}</td>
                                         <td>{destination.name}</td>
+                                        <td className="text-right">{destination.country}</td>
                                         <td className="text-right">{destination.available}</td>
                                         <td className="text-right">{destination.reserved}</td>
                                         <td className="text-right">{destination.date}</td>
@@ -246,6 +272,19 @@ export default class Destination extends React.Component {
                             <Form.Control type="text" id="new-name"
                                 value={this.state.addModal.name}
                                 onChange={(e) => this.setAddModalStringFieldState('name', e.target.value)} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label htmlFor="new-country">Country name</Form.Label>
+                            <Form.Control as="select" id="country"
+                                value={this.state.addModal.country}
+                                onChange={(e) => this.setAddModalStringFieldState('country', e.target.value)}>
+                                <option value="null">Select country</option>
+                                {this.state.countries.map(c => (
+                                    <option value={c}>
+                                        {c}
+                                    </option>
+                                ))}
+                            </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label htmlFor="new-available">Available</Form.Label>
@@ -287,6 +326,19 @@ export default class Destination extends React.Component {
                                 onChange={(e) => this.setEditModalStringFieldState('name', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
+                            <Form.Label htmlFor="edit-country">Country name</Form.Label>
+                            <Form.Control as="select" id="country"
+                                value={this.state.editModal.country}
+                                onChange={(e) => this.setEditModalStringFieldState('country', e.target.value)}>
+                                <option value="null">Select country</option>
+                                {this.state.countries.map(c => (
+                                    <option value={c}>
+                                        {c}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group>
                             <Form.Label htmlFor="edit-available">Available</Form.Label>
                             <Form.Control type="text" id="edit-available"
                                 value={this.state.editModal.available}
@@ -318,6 +370,7 @@ export default class Destination extends React.Component {
         this.setAddModalStringFieldState('message', '');
 
         this.setAddModalStringFieldState('name', '');
+        this.setAddModalStringFieldState('country', '');
         this.setAddModalStringFieldState('available', '');
         this.setAddModalNumberFieldState('date', '');
 
@@ -327,6 +380,7 @@ export default class Destination extends React.Component {
     private doAdd() {
         api('/api/destination/', 'post', {
             name: this.state.addModal.name,
+            country: this.state.addModal.country,
             available: this.state.addModal.available,
             date: this.state.addModal.date,
         }, 'user')
@@ -350,6 +404,7 @@ export default class Destination extends React.Component {
         this.setEditModalStringFieldState('message', '');
         this.setEditModalNumberFieldState('destinationId', destination.destinationId ? destination.destinationId?.toString() : 'null');
         this.setEditModalStringFieldState('name', String(destination.name));
+        this.setEditModalStringFieldState('country', String(destination.country));
         this.setEditModalNumberFieldState('available', String(destination.available));
         this.setEditModalNumberFieldState('reserved', String(destination.reserved));
         this.setEditModalDateFieldState('date', String(destination.date));
@@ -360,6 +415,7 @@ export default class Destination extends React.Component {
     private doEdit() {
         api('/api/destination/' + this.state.editModal.destinationId, 'patch', {
             name: this.state.editModal.name,
+            country: this.state.editModal.country,
             available: this.state.editModal.available,
             date: this.state.editModal.date,
         }, 'user')
