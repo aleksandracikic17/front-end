@@ -73,7 +73,6 @@ async function responseHandler(
         status: 'ok',
         data: res.data,
     };
-console.log(response)
     return resolve(response);
 }
 
@@ -100,7 +99,6 @@ async function refreshToken(role: 'user' | 'administrator'): Promise<string | nu
     const data = {
         token: getRefreshToken(role),
     }
-    console.log(data)
 
     const refreshTokenRequestData: AxiosRequestConfig = {
         method: 'post',
@@ -111,7 +109,7 @@ async function refreshToken(role: 'user' | 'administrator'): Promise<string | nu
             'Content-Type': 'application/json',
         },
     };
-    console.log(refreshTokenRequestData)
+
     const rtr: { data: { token: string | undefined } } = await axios(refreshTokenRequestData);
 
     if (!rtr.data.token) {
@@ -120,7 +118,6 @@ async function refreshToken(role: 'user' | 'administrator'): Promise<string | nu
 
     return rtr.data.token;
 }
-
 async function repeatRequest(
     requestData: AxiosRequestConfig,
     resolve: (value?: ApiResponse) => void
