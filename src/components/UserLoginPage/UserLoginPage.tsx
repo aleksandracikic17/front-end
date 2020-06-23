@@ -105,17 +105,17 @@ export default class UserLoginPage extends React.Component {
                     <Card bg="light">
                         <Card.Body>
                             <Card.Title>
-                                <FontAwesomeIcon icon={faSignInAlt} /> User Login
+                                <FontAwesomeIcon icon={faSignInAlt} /> Prijava korisnika
                             </Card.Title>
                             <Form>
                                 <Form.Group>
-                                    <Form.Label htmlFor="text">Username:</Form.Label>
+                                    <Form.Label htmlFor="text">Korisničko ime:</Form.Label>
                                     <Form.Control type="text" id="username"
                                         value={this.state.username}
                                         onChange={event => this.formInputChanged(event as any)} />
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label htmlFor="password">Password:</Form.Label>
+                                    <Form.Label htmlFor="password">Šifra:</Form.Label>
                                     <Form.Control type="password" id="password"
                                         value={this.state.password}
                                         onChange={event => this.formInputChanged(event as any)} />
@@ -123,7 +123,7 @@ export default class UserLoginPage extends React.Component {
                                 <Form.Group>
                                     <Button variant="primary"
                                         onClick={() => this.doLogin()}>
-                                        Log in
+                                        Prijava
                                     </Button>
                                 </Form.Group>
 

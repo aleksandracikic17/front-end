@@ -83,7 +83,7 @@ export default class UserRegistrationPage extends React.Component {
                     <Card bg="light">
                         <Card.Body>
                             <Card.Title>
-                                <FontAwesomeIcon icon={faUserPlus} /> User Registration
+                                <FontAwesomeIcon icon={faUserPlus} /> Registracija korisnika
                             </Card.Title>
 
                             {
@@ -106,9 +106,9 @@ export default class UserRegistrationPage extends React.Component {
     private renderRegistrationComplete() {
         return (
             <>
-                <p>The registration has been completed succesfully.</p>
+                <p>Registracija uspesna</p>
                 <p>
-                    <Link to="/user/login/">Click here</Link> to go to the log in page.
+                    <Link to="/user/login/">Klikni ovde</Link> za prijavu.
                 </p>
             </>
         );
@@ -120,7 +120,7 @@ export default class UserRegistrationPage extends React.Component {
                 <Row>
                     <Col xs="12" lg="6">
                         <Form.Group>
-                            <Form.Label htmlFor="username">Username:</Form.Label>
+                            <Form.Label htmlFor="username">Korisničko ime:</Form.Label>
                             <Form.Control type="username" id="username"
                                 value={this.state.formData.username}
                                 onChange={(event) => this.handleFormInputChange(event as any)} />
@@ -129,7 +129,7 @@ export default class UserRegistrationPage extends React.Component {
 
                     <Col xs="12" lg="6">
                         <Form.Group>
-                            <Form.Label htmlFor="password">Password:</Form.Label>
+                            <Form.Label htmlFor="password">Šifra:</Form.Label>
                             <Form.Control type="password" id="password"
                                 value={this.state.formData.password}
                                 onChange={(event) => this.handleFormInputChange(event as any)} />
@@ -140,7 +140,7 @@ export default class UserRegistrationPage extends React.Component {
                 <Form.Group>
                     <Button variant="primary" block
                         onClick={() => this.doRegister()}>
-                        <FontAwesomeIcon icon={faUserPlus} /> Register
+                        <FontAwesomeIcon icon={faUserPlus} /> Registruj se
                     </Button>
                 </Form.Group>
             </Form>

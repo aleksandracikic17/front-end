@@ -157,22 +157,22 @@ export default class Client extends React.Component {
                 <Card bg="light">
                     <Card.Body>
                         <Card.Title>
-                            <FontAwesomeIcon icon={faListAlt} /> Clients
+                            <FontAwesomeIcon icon={faListAlt} /> Klijenti
                         </Card.Title>
                         <Card.Body>
                             <Button variant="primary" size="sm"
                                 onClick={() => this.showAddModal()}>
-                                <FontAwesomeIcon icon={faPlus} /> Add new client
+                                <FontAwesomeIcon icon={faPlus} /> Dodaj novog klijenta
                             </Button>
                         </Card.Body>
                         <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>
-                                    <th>Name</th>
-                                    <th className="text-right">Lastname</th>
+                                    <th>Ime</th>
+                                    <th className="text-right">Prezime</th>
                                     <th className="text-right">Mail</th>
-                                    <th className="text-right">Phone</th>
+                                    <th className="text-right">Telefon</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -187,7 +187,7 @@ export default class Client extends React.Component {
                                         <td className="text-center">
                                             <Button variant="info" size="sm"
                                                 onClick={() => this.showEditModal(client)}>
-                                                <FontAwesomeIcon icon={faEdit} /> Edit
+                                                <FontAwesomeIcon icon={faEdit} /> Uredi klijenta
                                         </Button>
                                         </td>
                                     </tr>
@@ -201,18 +201,18 @@ export default class Client extends React.Component {
                     onHide={() => this.setAddModalVisibleState(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Add new client
+                            Dodaj novog klijenta
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="new-name">Name</Form.Label>
+                            <Form.Label htmlFor="new-name">Ime</Form.Label>
                             <Form.Control type="text" id="new-name"
                                 value={this.state.addModal.name}
                                 onChange={(e) => this.setAddModalStringFieldState('name', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-lastname">Lastname</Form.Label>
+                            <Form.Label htmlFor="new-lastname">Prezime</Form.Label>
                             <Form.Control type="text" id="new-lastname"
                                 value={this.state.addModal.lastname}
                                 onChange={(e) => this.setAddModalStringFieldState('lastname', e.target.value)} />
@@ -225,7 +225,7 @@ export default class Client extends React.Component {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-phone">Phone</Form.Label>
+                            <Form.Label htmlFor="new-phone">Telefon</Form.Label>
                             <Form.Control type="text" id="new-phone"
                                 value={this.state.addModal.phone}
                                 onChange={(e) => this.setAddModalStringFieldState('phone', e.target.value)}>
@@ -233,7 +233,7 @@ export default class Client extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doAdd()}>
-                                <FontAwesomeIcon icon={faPlus} /> Add client
+                                <FontAwesomeIcon icon={faPlus} /> Dodaj klijenta
                             </Button>
                         </Form.Group>
 
@@ -247,18 +247,18 @@ export default class Client extends React.Component {
                     onHide={() => this.setEditModalVisibleState(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Edit client
+                            Uredi klijenta
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-name">Name</Form.Label>
+                            <Form.Label htmlFor="edit-name">Ime</Form.Label>
                             <Form.Control type="text" id="edit-name"
                                 value={this.state.editModal.name}
                                 onChange={(e) => this.setEditModalStringFieldState('name', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-lastname">Lastname</Form.Label>
+                            <Form.Label htmlFor="edit-lastname">Prezime</Form.Label>
                             <Form.Control type="text" id="edit-lastname"
                                 value={this.state.editModal.lastname}
                                 onChange={(e) => this.setEditModalStringFieldState('lastname', e.target.value)} />
@@ -271,7 +271,7 @@ export default class Client extends React.Component {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-phone">Phone</Form.Label>
+                            <Form.Label htmlFor="edit-phone">Telefon</Form.Label>
                             <Form.Control type="text" id="edit-phone"
                                 value={this.state.editModal.phone}
                                 onChange={(e) => this.setEditModalStringFieldState('phone', e.target.value)}>
@@ -279,7 +279,7 @@ export default class Client extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doEdit()}>
-                                <FontAwesomeIcon icon={faSave} /> Edit client
+                                <FontAwesomeIcon icon={faSave} /> Uredi klijenta
                             </Button>
                         </Form.Group>
 

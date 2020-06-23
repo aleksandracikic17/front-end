@@ -40,7 +40,7 @@ class HomePage extends React.Component {
                 <Card bg="light">
                     <Card.Body>
                         <Card.Title>
-                            This is the internal TA backoffice application. Welcome!
+                            Ovo je interna aplikacija za evidenciju turisticke agencije. Dobrodosli!
                         </Card.Title>
                     </Card.Body>
                 </Card>

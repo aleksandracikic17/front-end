@@ -227,23 +227,23 @@ export default class Client extends React.Component {
                 <Card bg="light">
                     <Card.Body>
                         <Card.Title>
-                            <FontAwesomeIcon icon={faListAlt} /> Arrangements
+                            <FontAwesomeIcon icon={faListAlt} /> Aranžmani
                         </Card.Title>
                         <Card.Body>
                             <Button variant="primary" size="sm"
                                 onClick={() => this.showAddModal()}>
-                                <FontAwesomeIcon icon={faPlus} /> Add new arrangement
+                                <FontAwesomeIcon icon={faPlus} /> Dodaj novi aranžman
                             </Button>
                         </Card.Body>
                         <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>
-                                    <th className="text-right">Destination id</th>
-                                    <th className="text-right">Destination name</th>
-                                    <th className="text-right">Client id</th>
-                                    <th className="text-right">Client name</th>
-                                    <th className="text-right">Active</th>
+                                    <th className="text-right">ID destinacije</th>
+                                    <th className="text-right">Destinacija</th>
+                                    <th className="text-right">ID klijenta</th>
+                                    <th className="text-right">Klijent</th>
+                                    <th className="text-right">Aktivan</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -266,7 +266,7 @@ export default class Client extends React.Component {
                                             ) :
                                                 <Button variant="info" size="sm"
                                                     onClick={() => this.showEditModal(arrangement)}>
-                                                    Cancel arrangement
+                                                    Otkaži aranžman
                                         </Button>}
                                         </td>
                                     </tr>
@@ -285,11 +285,11 @@ export default class Client extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="new-destinationId">Destination name</Form.Label>
+                            <Form.Label htmlFor="new-destinationId">Destinacija</Form.Label>
                             <Form.Control as="select" id="destinationId"
                                 value={this.state.addModal.destinationId}
                                 onChange={(e) => this.setAddModalNumberFieldState('destinationId', e.target.value)}>
-                                <option value="null">Select destination</option>
+                                <option value="null">Odaberi destinaciju</option>
                                 {this.state.destinations.map(d => (
                                     <option value={d.destinationId}>
                                         {d.destinationId}. {d.name}
@@ -298,11 +298,11 @@ export default class Client extends React.Component {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-clientId">Client name</Form.Label>
+                            <Form.Label htmlFor="new-clientId">Klijent</Form.Label>
                             <Form.Control as="select" id="clientId"
                                 value={this.state.addModal.clientId}
                                 onChange={(e) => this.setAddModalNumberFieldState('clientId', e.target.value)}>
-                                <option value="null">Select client</option>
+                                <option value="null">Odaberi klijentat</option>
                                 {this.state.clients.map(c => (
                                     <option value={c.clientId}>
                                         {c.clientId}. {c.name} {c.lastname}
@@ -312,7 +312,7 @@ export default class Client extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doAdd()}>
-                                <FontAwesomeIcon icon={faPlus} /> Add arrangement
+                                <FontAwesomeIcon icon={faPlus} /> Dodaj aranžman
                             </Button>
                         </Form.Group>
 
@@ -326,19 +326,19 @@ export default class Client extends React.Component {
                     onHide={() => this.setEditModalVisibleState(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Cancel arrangement
+                            Otkaži aranžman
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-canceled">You can not activate a canceled arrangement!</Form.Label>
+                            <Form.Label htmlFor="edit-canceled">Ne moze se aktivirati otkazan aranžman!</Form.Label>
                             <Form.Control type="checkbox" id="edit-canceled"
                                 value={this.state.editModal.canceled?.toString()}
                                 onChange={(e) => this.setEditModalBooleanFieldState('canceled', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doEdit()}>
-                                CONFIRM
+                                Potvrdi
                             </Button>
                         </Form.Group>
 

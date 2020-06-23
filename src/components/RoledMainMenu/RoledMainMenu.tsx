@@ -21,25 +21,25 @@ export default class RoledMainMenu extends React.Component<RoledMainMenuProperti
 
     private getUserMenuItems(): MainMenuItem[] {
         return [
-            new MainMenuItem("Clients", "/client/"),
-            new MainMenuItem("Destinations", "/destination/"),
-            new MainMenuItem("Arrangements", "/arrangement/"),
-            new MainMenuItem("Log out", "/user/logout/"),
+            new MainMenuItem("Klijenti", "/client/"),
+            new MainMenuItem("Destinacije", "/destination/"),
+            new MainMenuItem("Aranžmani", "/arrangement/"),
+            new MainMenuItem("Odjava", "/user/logout/"),
         ];
     }
 
     private getAdministratorMenuItems(): MainMenuItem[] {
         return [
-            new MainMenuItem("Users", "/users/"),
-            new MainMenuItem("Log out", "/user/logout/"),
+            new MainMenuItem("Korisnici", "/users/"),
+            new MainMenuItem("Odjava", "/user/logout/"),
         ];
     }
 
     private getVisitorMenuItems(): MainMenuItem[] {
         return [
-            new MainMenuItem("User register", "/user/register/"),
-            new MainMenuItem("User log in", "/user/login/"),
-            new MainMenuItem("Administrator log in", "/administrator/login/"),
+            new MainMenuItem("Registracija korisnika", "/user/register/"),
+            new MainMenuItem("Prijava korisnika", "/user/login/"),
+            new MainMenuItem("Prijava administratora", "/administrator/login/"),
         ];
     }
 }

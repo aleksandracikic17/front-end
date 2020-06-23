@@ -88,13 +88,13 @@ export default class Destination extends React.Component {
                 <Card bg="light">
                     <Card.Body>
                         <Card.Title>
-                            <FontAwesomeIcon icon={faListAlt} /> Users
+                            <FontAwesomeIcon icon={faListAlt} /> Korisnici
                         </Card.Title>
                         <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>
-                                    <th>Username</th>
+                                    <th>Korisnicko ime</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -106,7 +106,7 @@ export default class Destination extends React.Component {
                                         <td className="text-center">
                                             <Button variant="info" size="sm"
                                                 onClick={() => this.showDeleteModal(user)}>
-                                                <FontAwesomeIcon icon={faEdit} /> Delete
+                                                <FontAwesomeIcon icon={faEdit} /> Obriši
                                         </Button>
                                         </td>
                                     </tr>
@@ -120,17 +120,17 @@ export default class Destination extends React.Component {
                     onHide={() => this.setDeleteModalVisibleState(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Delete user
+                            Obrisi korisnika
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="delete">You can not get back a deleted user!</Form.Label>
+                            <Form.Label htmlFor="delete">Obrisan korisnik se ne može vratiti!</Form.Label>
 
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doDelete()}>
-                                CONFIRM
+                                Potvrdi
                             </Button>
                         </Form.Group>
 

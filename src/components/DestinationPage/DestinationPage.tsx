@@ -210,24 +210,24 @@ export default class Destination extends React.Component {
                 <Card bg="light">
                     <Card.Body>
                         <Card.Title>
-                            <FontAwesomeIcon icon={faListAlt} /> Destinations
+                            <FontAwesomeIcon icon={faListAlt} /> Destinacije
                         </Card.Title>
                         <Card.Body>
                             <Button variant="primary" size="sm"
                                 onClick={() => this.showAddModal()}>
-                                <FontAwesomeIcon icon={faPlus} /> Add new destination
+                                <FontAwesomeIcon icon={faPlus} /> Dodaj novu destinaciju
                             </Button>
                         </Card.Body>
                         <Table hover responsive bordered size="sm">
                             <thead>
                                 <tr>
                                     <th className="text-right">ID</th>
-                                    <th>Name</th>
-                                    <th className="text-right">Country</th>
-                                    <th className="text-right">Available</th>
-                                    <th className="text-right">Reserved</th>
-                                    <th className="text-right">Date</th>
-                                    <th className="text-right">Active</th>
+                                    <th>Ime</th>
+                                    <th className="text-right">Zemlja</th>
+                                    <th className="text-right">Slobodno</th>
+                                    <th className="text-right">Rezervisano</th>
+                                    <th className="text-right">Datum putovanja</th>
+                                    <th className="text-right">Aktivna</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -249,7 +249,7 @@ export default class Destination extends React.Component {
                                         <td className="text-center">
                                             <Button variant="info" size="sm"
                                                 onClick={() => this.showEditModal(destination)}>
-                                                <FontAwesomeIcon icon={faEdit} /> Edit
+                                                <FontAwesomeIcon icon={faEdit} /> Uredi
                                         </Button>
                                         </td>
                                     </tr>
@@ -268,17 +268,17 @@ export default class Destination extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="new-name">Name</Form.Label>
+                            <Form.Label htmlFor="new-name">Ime</Form.Label>
                             <Form.Control type="text" id="new-name"
                                 value={this.state.addModal.name}
                                 onChange={(e) => this.setAddModalStringFieldState('name', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-country">Country name</Form.Label>
+                            <Form.Label htmlFor="new-country">Zemlja</Form.Label>
                             <Form.Control as="select" id="country"
                                 value={this.state.addModal.country}
                                 onChange={(e) => this.setAddModalStringFieldState('country', e.target.value)}>
-                                <option value="null">Select country</option>
+                                <option value="null">Odaberi zemlju</option>
                                 {this.state.countries.map(c => (
                                     <option value={c}>
                                         {c}
@@ -287,13 +287,13 @@ export default class Destination extends React.Component {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-available">Available</Form.Label>
+                            <Form.Label htmlFor="new-available">Slobodno</Form.Label>
                             <Form.Control type="text" id="new-available"
                                 value={this.state.addModal.available}
                                 onChange={(e) => this.setAddModalNumberFieldState('available', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="new-date">Date</Form.Label>
+                            <Form.Label htmlFor="new-date">Datum putovanja</Form.Label>
                             <Form.Control type="date" id="new-date"
                                 value={this.state.addModal.date?.toString()}
                                 onChange={(e) => this.setAddModalDateFieldState('date', e.target.value)}>
@@ -301,7 +301,7 @@ export default class Destination extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doAdd()}>
-                                <FontAwesomeIcon icon={faPlus} /> Add destination
+                                <FontAwesomeIcon icon={faPlus} /> Dodaj destinaciju
                             </Button>
                         </Form.Group>
 
@@ -320,17 +320,17 @@ export default class Destination extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-name">Name</Form.Label>
+                            <Form.Label htmlFor="edit-name">Ime</Form.Label>
                             <Form.Control type="text" id="edit-name"
                                 value={this.state.editModal.name}
                                 onChange={(e) => this.setEditModalStringFieldState('name', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-country">Country name</Form.Label>
+                            <Form.Label htmlFor="edit-country">Zemlja</Form.Label>
                             <Form.Control as="select" id="country"
                                 value={this.state.editModal.country}
                                 onChange={(e) => this.setEditModalStringFieldState('country', e.target.value)}>
-                                <option value="null">Select country</option>
+                                <option value="null">Odaberi zemlju</option>
                                 {this.state.countries.map(c => (
                                     <option value={c}>
                                         {c}
@@ -339,13 +339,13 @@ export default class Destination extends React.Component {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-available">Available</Form.Label>
+                            <Form.Label htmlFor="edit-available">Slobodno</Form.Label>
                             <Form.Control type="text" id="edit-available"
                                 value={this.state.editModal.available}
                                 onChange={(e) => this.setEditModalNumberFieldState('available', e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label htmlFor="edit-date">Date</Form.Label>
+                            <Form.Label htmlFor="edit-date">Datum</Form.Label>
                             <Form.Control type="date" id="edit-date"
                                 value={this.state.editModal.date?.toString()}
                                 onChange={(e) => this.setEditModalDateFieldState('date', e.target.value)}>
@@ -353,7 +353,7 @@ export default class Destination extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Button variant="primary" onClick={() => this.doEdit()}>
-                                <FontAwesomeIcon icon={faSave} /> Edit destination
+                                <FontAwesomeIcon icon={faSave} /> Uredi destinaciju
                             </Button>
                         </Form.Group>
 
