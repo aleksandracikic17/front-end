@@ -77,21 +77,21 @@ async function responseHandler(
 }
 
 function getToken(role: 'user' | 'administrator'): string {
-    const token = localStorage.getItem('api_token');
+    const token = localStorage.getItem('api_token' + role);
     return 'Bearer ' + token;
 }
 
 export function saveToken(role: 'user' | 'administrator', token: string) {
-    localStorage.setItem('api_token', token);
+    localStorage.setItem('api_token' + role, token);
 }
 
 function getRefreshToken(role: 'user' | 'administrator'): string {
-    const token = localStorage.getItem('api_refresh_token');
+    const token = localStorage.getItem('api_refresh_token' + role);
     return token + '';
 }
 
 export function saveRefreshToken(role: 'user' | 'administrator', token: string) {
-    localStorage.setItem('api_refresh_token', token);
+    localStorage.setItem('api_refresh_token' + role, token);
 }
 
 async function refreshToken(role: 'user' | 'administrator'): Promise<string | null> {
