@@ -132,14 +132,27 @@ export default class Client extends React.Component {
     async getArrangements() {
         api('/api/destination', 'get', {}, 'user')
             .then(async (res: ApiResponse) => {
+                if (res.status === 'error' || res.status === 'login') {
+                    this.setLogginState(false);
+                    return;
+                }
                 const destinations: ApiDestinationDto[] = res.data;
 
                 api('/api/client', 'get', {}, 'user')
                     .then(async (res: ApiResponse) => {
+                        if (res.status === 'error' || res.status === 'login') {
+                            this.setLogginState(false);
+                            return;
+                        }
+
                         const clients: ApiClientDto[] = res.data;
 
                         api('/api/arrangement', 'get', {}, 'user')
                             .then(async (res: ApiResponse) => {
+                                if (res.status === 'error' || res.status === 'login') {
+                                    this.setLogginState(false);
+                                    return;
+                                }
                                 const data: ApiArrangementDto[] = res.data;
                                 const arrangements: ArrangementType[] = data.map(arrangement => ({
                                     arrangementId: arrangement.id,
@@ -151,14 +164,18 @@ export default class Client extends React.Component {
                                 }));
                                 this.setStateArrangements(arrangements);
                             })
-                    })
-            })
+                    });
+            });
     }
 
 
     async getDestinationsDropDown() {
         api('/api/destination', 'get', {}, 'user')
             .then((res: ApiResponse) => {
+                if (res.status === 'error' || res.status === 'login') {
+                    this.setLogginState(false);
+                    return;
+                }
 
                 const data: ApiDestinationDto[] = res.data;
 
@@ -174,6 +191,10 @@ export default class Client extends React.Component {
     async getClientsDropDown() {
         api('/api/client', 'get', {}, 'user')
             .then((res: ApiResponse) => {
+                if (res.status === 'error' || res.status === 'login') {
+                    this.setLogginState(false);
+                    return;
+                }
 
                 const data: ApiClientDto[] = res.data;
 

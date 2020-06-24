@@ -62,7 +62,7 @@ export default class Destination extends React.Component {
 
     private setLogginState(isLoggedIn: boolean) {
         const newState = Object.assign(this.state, {
-            isAdministratorLoggedIn: isLoggedIn,
+            isUserLoggedIn: isLoggedIn,
         });
 
         this.setState(newState);
@@ -77,7 +77,7 @@ export default class Destination extends React.Component {
     render() {
         if (this.state.isUserLoggedIn === false) {
             return (
-                <Redirect to="/user/login" />
+                <Redirect to="/administrator/login" />
             );
         }
 

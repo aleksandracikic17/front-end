@@ -144,7 +144,7 @@ export default class Destination extends React.Component {
 
     private getCountries() {
         fetch('https://restcountries.eu/rest/v2/all')
-            .then(response => response.json())
+            .then(response => response.json()) 
             .then(json => json.map((country: { name: any; }) => country.name))
             .then(countries =>
                 this.setStateCountries(countries))
@@ -176,7 +176,7 @@ export default class Destination extends React.Component {
 
     private setLogginState(isLoggedIn: boolean) {
         const newState = Object.assign(this.state, {
-            isAdministratorLoggedIn: isLoggedIn,
+            isUserLoggedIn: isLoggedIn,
         });
 
         this.setState(newState);
@@ -193,7 +193,6 @@ export default class Destination extends React.Component {
             countries: countries,
         }));
     }
-
 
     render() {
         if (this.state.isUserLoggedIn === false) {

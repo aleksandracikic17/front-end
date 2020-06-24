@@ -131,12 +131,12 @@ export default class Client extends React.Component {
 
     private setLogginState(isLoggedIn: boolean) {
         const newState = Object.assign(this.state, {
-            isAdministratorLoggedIn: isLoggedIn,
+            isUserLoggedIn: isLoggedIn,
         });
 
         this.setState(newState);
     }
-
+    
     private setStateClients(clients: ClientType[]) {
         this.setState(Object.assign(this.state, {
             clients: clients,
